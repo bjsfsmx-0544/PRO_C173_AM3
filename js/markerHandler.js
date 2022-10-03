@@ -24,12 +24,12 @@ AFRAME.registerComponent("markerhandler", {
     var iconUrl = "https://raw.githubusercontent.com/whitehatjr/menu-card-app/main/hunger.png";
 
     swal({
-      title: "Welcome to Hunger!!",
+      title: "¡Bienvenidos a 'El Antojo'!",
       icon: iconUrl,
       content: {
         element: "input",
         attributes: {
-          placeholder: "Type your table number",
+          placeholder: "Escribe tu número de mesa",
           type: "number",
           min: 1
         }
@@ -40,10 +40,10 @@ AFRAME.registerComponent("markerhandler", {
   },
 
   handleMarkerFound: function (dishes, markerId) {
-    // Getting today's day
+    // Obtener el día actual
     var todaysDate = new Date();
     var todaysDay = todaysDate.getDay();
-    // Sunday - Saturday : 0 - 6
+    // Domingo - Sábado : 0 - 6
     var days = [
       "sunday",
       "monday",
@@ -61,39 +61,39 @@ AFRAME.registerComponent("markerhandler", {
       swal({
         icon: "warning",
         title: dish.dish_name.toUpperCase(),
-        text: "This dish is not available today!!!",
+        text: "¡Este platillo no está disponible hoy!",
         timer: 2500,
         buttons: false
       });
     } else {
-      // make model visible
+      // Hacer al modelo visible
       var model = document.querySelector(`#model-${dish.id}`);
       model.setAttribute("visible", true);
 
-      // Make ingredients Container visible
+      // Haver al contenedor de ingredientes visible
       var ingredientsContainer = document.querySelector(
         `#main-plane-${dish.id}`
       );
       ingredientsContainer.setAttribute("visible", true);
 
-      // Make Price Plane visible
+      // Hacer al plano de precios visible
       var pricePlane = document.querySelector(`#price-plane-${dish.id}`);
       pricePlane.setAttribute("visible", true);
 
-      // Make Rating Plane visible
+      // Hacer al plano de calificaciones visible
       var ratingPlane = document.querySelector(`#rating-plane-${dish.id}`);
       ratingPlane.setAttribute("visible", false);
 
-      // Make review Plane visible
+      // Hacer el plano de reseñas visible
       var reviewPlane = document.querySelector(`#review-plane-${dish.id}`);
       reviewPlane.setAttribute("visible", false);
 
-      // Changing Model scale to initial scale
+      // Cambiar la escala del modelo a la escala inicial 
       model.setAttribute("position", dish.model_geometry.position);
       model.setAttribute("rotation", dish.model_geometry.rotation);
       model.setAttribute("scale", dish.model_geometry.scale);
 
-      // Changing button div visibility
+      // Cambiar la visibilidad de buttonDiv
       var buttonDiv = document.getElementById("button-div");
       buttonDiv.style.display = "flex";
 
@@ -102,7 +102,7 @@ AFRAME.registerComponent("markerhandler", {
       var orderSummaryButtton = document.getElementById("order-summary-button");
       var payButton = document.getElementById("pay-button");
 
-      // Handling Click Events
+      // Administrar eventos de clic
       ratingButton.addEventListener("click", () => this.handleRatings(dish));
 
       orderButtton.addEventListener("click", () => {
@@ -112,8 +112,8 @@ AFRAME.registerComponent("markerhandler", {
 
         swal({
           icon: "https://i.imgur.com/4NZ6uLY.jpg",
-          title: "Thanks For Order !",
-          text: "Your order will serve soon on your table!",
+          title: "¡Gracias por ordenar!",
+          text: "¡Su pedido será servido pronto en su mesa!",
           timer: 2000,
           buttons: false
         });
@@ -128,7 +128,7 @@ AFRAME.registerComponent("markerhandler", {
   },
   
   handleOrder: function (tNumber, dish) {
-    // Reading currnt table order details
+    // Leer los detalles del pedido de la mesa actual
     firebase
       .firestore()
       .collection("tables")
@@ -138,10 +138,10 @@ AFRAME.registerComponent("markerhandler", {
         var details = doc.data();
 
         if (details["current_orders"][dish.id]) {
-          // Increasing Current Quantity
+          // Aumentar la cantidad actual
           details["current_orders"][dish.id]["quantity"] += 1;
 
-          //Calculating Subtotal of item
+          // Calcular el subtotal de elementos
           var currentQuantity = details["current_orders"][dish.id]["quantity"];
 
           details["current_orders"][dish.id]["subtotal"] =
@@ -157,7 +157,7 @@ AFRAME.registerComponent("markerhandler", {
 
         details.total_bill += dish.price;
 
-        // Updating Db
+        // Actualizar la base de datos
         firebase
           .firestore()
           .collection("tables")
@@ -183,20 +183,20 @@ AFRAME.registerComponent("markerhandler", {
       .then(doc => doc.data());
   },
   handleOrderSummary: async function () {
-    // Changing modal div visibility
+    // Cambiar la visibilidad de modalDiv
     var modalDiv = document.getElementById("modal-div");
     modalDiv.style.display = "flex";
 
     var tableBodyTag = document.getElementById("bill-table-body");
 
-    // Removing old tr data
+    // Remover los datos antiguos de "tr"
     tableBodyTag.innerHTML = "";
 
-    // Getting Table Number
+    // Obtener el número de mesa
     var tNumber;
     tableNumber <= 9 ? (tNumber = `T0${tableNumber}`) : `T${tableNumber}`;
 
-    // Getting Order Summary from database
+    // Obtener el resumen del pedido de la base de datos
     var orderSummary = await this.getOrderSummary(tNumber);
 
     var currentOrders = Object.keys(orderSummary.current_orders);
@@ -252,14 +252,14 @@ AFRAME.registerComponent("markerhandler", {
     tableBodyTag.appendChild(totalTr);
   },
   handlePayment: function () {
-    // Close Modal
+    // Cerrar el modal
     document.getElementById("modal-div").style.display = "none";
 
-    // Getting Table Number
+    // Obtener el número de mesa
     var tNumber;
     tableNumber <= 9 ? (tNumber = `T0${tableNumber}`) : `T${tableNumber}`;
 
-    // Reseting current orders and total bill
+    // Reiniciar los pedidos actuales y la cuenta total
     firebase
       .firestore()
       .collection("tables")
@@ -271,8 +271,8 @@ AFRAME.registerComponent("markerhandler", {
       .then(() => {
         swal({
           icon: "success",
-          title: "Thanks For Paying !",
-          text: "We Hope You Enjoyed Your Food !!",
+          title: "¡Gracias por su pago!",
+          text: "¡Esperamos que haya disfrutado la comida!",
           timer: 2500,
           buttons: false
         });
@@ -281,32 +281,32 @@ AFRAME.registerComponent("markerhandler", {
 
   handleRatings: async function (dish) {
 
-    // Getting Table Number
+    // Obtener el número de mesa
     var tNumber;
     tableNumber <= 9 ? (tNumber = `T0${tableNumber}`) : `T${tableNumber}`;
     
-    // Getting Order Summary from database
+    // Obtener el resumen de la orden desde la base de datos
     var orderSummary = await this.getOrderSummary(tNumber);
 
     var currentOrders = Object.keys(orderSummary.current_orders);    
 
     if (currentOrders.length > 0 && currentOrders==dish.id) {
       
-      // Close Modal
+      // Cerrar el modal
       document.getElementById("rating-modal-div").style.display = "flex";
       document.getElementById("rating-input").value = "0";
       document.getElementById("feedback-input").value = "";
 
-      //Submit button click event
+      // Evento de clic del botón de envio
       var saveRatingButton = document.getElementById("save-rating-button");
 
       saveRatingButton.addEventListener("click", () => {
         document.getElementById("rating-modal-div").style.display = "none";
-        //Get the input value(Review & Rating)
+        // Obtener los valores de entrada (reseña y calificación)
         var rating = document.getElementById("rating-input").value;
         var feedback = document.getElementById("feedback-input").value;
 
-        //Update db
+        // Actualizar la base de datos
         firebase
           .firestore()
           .collection("dishes")
@@ -318,8 +318,8 @@ AFRAME.registerComponent("markerhandler", {
           .then(() => {
             swal({
               icon: "success",
-              title: "Thanks For Rating!",
-              text: "We Hope You Like Dish !!",
+              title: "¡Gracias por la calificación!",
+              text: "¡Esperamos que hayas disfrutado el platillo!",
               timer: 2500,
               buttons: false
             });
@@ -328,8 +328,8 @@ AFRAME.registerComponent("markerhandler", {
     } else{
       swal({
         icon: "warning",
-        title: "Oops!",
-        text: "No dish found to give ratings!!",
+        title: "¡Ups!",
+        text: "¡No se encontró un platillo para dejar una calificación!",
         timer: 2500,
         buttons: false
       });
@@ -337,7 +337,7 @@ AFRAME.registerComponent("markerhandler", {
 
   },
   handleMarkerLost: function () {
-    // Changing button div visibility
+    // Cambiar la visibilidad de buttonDiv
     var buttonDiv = document.getElementById("button-div");
     buttonDiv.style.display = "none";
   }
