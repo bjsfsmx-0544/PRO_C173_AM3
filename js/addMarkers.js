@@ -109,7 +109,7 @@ AFRAME.registerComponent("create-markers", {
           color: "white",
           width: 3,
           align: "center",
-          value: `Only\n $${dish.price}`
+          value: `Solo\n $${dish.price}`
         });
 
         pricePlane.appendChild(price);
@@ -141,7 +141,7 @@ AFRAME.registerComponent("create-markers", {
           color: "black",
           width: 2.4,
           align: "center",
-          value: `Customer Rating: ${dish.last_rating}`
+          value: `Calificación del cliente: ${dish.last_rating}`
         });
 
         ratingPlane.appendChild(rating);
@@ -173,7 +173,7 @@ AFRAME.registerComponent("create-markers", {
           color: "black",
           width: 2.4,
           align: "center",
-          value: `Customer Review: \n${dish.last_review}`
+          value: `Reseña del cliente: \n${dish.last_review}`
         });
         
         reviewPlane.appendChild(review);
