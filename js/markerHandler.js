@@ -113,7 +113,7 @@ AFRAME.registerComponent("markerhandler", {
         swal({
           icon: "https://i.imgur.com/4NZ6uLY.jpg",
           title: "¡Gracias por ordenar!",
-          text: "¡Su pedido será servido pronto en su mesa!",
+          text: "¡Tu pedido será servido pronto en tu mesa!",
           timer: 2000,
           buttons: false
         });
@@ -271,8 +271,8 @@ AFRAME.registerComponent("markerhandler", {
       .then(() => {
         swal({
           icon: "success",
-          title: "¡Gracias por su pago!",
-          text: "¡Esperamos que haya disfrutado la comida!",
+          title: "¡Gracias por tu pago!",
+          text: "¡Esperamos que hayas disfrutado la comida!",
           timer: 2500,
           buttons: false
         });
